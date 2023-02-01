@@ -16,6 +16,7 @@
     line-height: 20px;
     caret-color: #FEBA0C;
 }
+
 .search__input:focus {
     background: #FFFFFF;
     border: 1px solid #FED700;

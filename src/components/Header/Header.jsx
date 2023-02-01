@@ -1,24 +1,17 @@
-// import ReactLogo from '../../../public/logo192.png'
-import Logo from '../Logo/logo';
+
+import Logo from '../Logo/Logo';
 // import Search from '../Search/Search';
 import './index.css';
+import Search from "../Search/Search";
 
-// const AppHeader = () => {
-//     return (
-//         <div className="wrapper">
-            {/*<img width={"200px"} src="/images/1111111.jpeg" alt="Фоновое изображение" />*/}
-            {/*<img width={"200px"} src={ReactLogo} alt="Фоновое изображение" />*/}
-//             <h1 className="head">Welcome React</h1>
-//         </div>
-//     )
-// }
 
-const Header = () => {
+
+const Header = ({children}) => {
     return (
-        <header>
+        <header className='header'>
             <div className="container">
                 <div className="header__wrapper">
-                    <Logo />
+                    {children}
                 </div>
             </div>
         </header>
