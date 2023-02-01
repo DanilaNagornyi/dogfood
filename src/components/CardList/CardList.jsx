@@ -1,8 +1,18 @@
 import './index.css';
+import Card from "../Card/Card";
 
-const CardList = () => {
+
+const CardList = ({goods}) => {
+
+
     return (
-        null
+        <div className='cards'>
+            {goods.map((el, index) => {
+                return (
+                    <Card key={index} {...el} />
+                )
+            }) }
+        </div>
     );
 };
 
