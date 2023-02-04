@@ -1,16 +1,10 @@
-
-import Logo from '../Logo/Logo';
-// import Search from '../Search/Search';
-import './index.css';
-import Search from "../Search/Search";
-
-
-
+import s from './Header.module.css';
+import cn from 'classnames';
 const Header = ({children}) => {
     return (
-        <header className='header'>
+        <header className={cn(s.header, 'js-click')}>
             <div className="container">
-                <div className="header__wrapper">
+                <div className={s.wrapper}>
                     {children}
                 </div>
             </div>

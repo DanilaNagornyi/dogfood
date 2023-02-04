@@ -6,6 +6,7 @@ import data from '../../assets/data.json';
 import Logo from "../Logo/Logo";
 import Search from "../Search/Search";
 import Footer from "../Footer/Footer";
+import Button from "../Button/Button";
 
 
 function Application() {
@@ -34,7 +35,7 @@ function Application() {
                 <Search onInput={handleInputChange} onSubmit={handleFormSubmit} />
             </Header>
             <main className='content container'>
-             <CardList goods={cards} />
+                 <CardList goods={cards} />
             </main>
             <Footer />
         </>
