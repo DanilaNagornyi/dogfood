@@ -1,8 +1,10 @@
-import "./index.css";
+import s from "./SearchInfo.module.css";
 
-const SearchInfo = () => {
+const SearchInfo = ({searchText, searchCount}) => {
     return (
-        null
+        searchText && <section className={s.searchTitle}>
+            По запросу <span className={s.boldText}>{searchText}</span> найдено {searchCount} товаров
+        </section>
     );
 };
 
