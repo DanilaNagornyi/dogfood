@@ -20,6 +20,12 @@ class Api {
         }).then(onResponse)
     }
 
+    getProductById(idProduct) {
+        return fetch(`${this._baseUrl}/products/${idProduct}`, {
+            headers: this._headers,
+        }).then(onResponse)
+    }
+
     setUserInfo(dataUser) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
@@ -35,7 +41,6 @@ class Api {
     }
 
     changeLikeProduct(productId, isLike) {
-        console.log('isLike', isLike);
         return fetch(`${this._baseUrl}/products/likes/${productId}`, {
             method: isLike ? 'DELETE' : 'PUT',
             headers: this._headers,
