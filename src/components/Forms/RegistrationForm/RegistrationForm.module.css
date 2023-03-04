@@ -1,0 +1,17 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+}
+.input {
+    border: 1px solid var(--border-grey-10);
+}
+
+.inputError {
+    border: 1px solid var(--primary-red-100);
+}
+
+.errorMessage {
+    color: var(--primary-red-100);
+}
