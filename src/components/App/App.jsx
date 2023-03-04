@@ -14,6 +14,8 @@ import NotFoundPage from "../../pages/ NotFoundPage/NotFoundPage";
 import {UserContext} from "../../context/userContext";
 import {CardContext} from "../../context/cardContext";
 import FavouritesPage from "../../pages/FavouritesPage/FavouritesPage";
+import RegistrationForm from "../../components/Forms/RegistrationForm/RegistrationForm";
+import Modal from "../Modal/Modal";
 
 function Application() {
     const [cards, setCards] = useState([]);
@@ -21,7 +23,12 @@ function Application() {
     const [currentUser, setCurrentUser] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [contacts, setContacts] = useState([]);
+    const [isModalActive, setIsModalActive] = useState(false);
     const debounceSearchQuery = useDebounce(searchQuery, 300);
+    const addContact = (contactInfo) => {
+        setContacts([...contacts, contactInfo]);
+    }
 
     useEffect(() => {
         setIsLoading(true);
@@ -88,7 +95,10 @@ function Application() {
     return (
         <UserContext.Provider value={{user: currentUser, isLoading}}> {/* Внедряем данные из стейта currentUser  с помощью провайдера контекста*/}
             <CardContext.Provider value={{cards, favourites, handleLike: handleProductLike, isLoading}}>
-            <Header user={currentUser} updateUserHandle={handleUpdateUser}> {/*Всем дочерним элементам доступен контекст*/}
+                <Modal active={isModalActive} setActive={setIsModalActive}>
+                   <RegistrationForm addContact={addContact} />
+                </Modal>
+            <Header user={currentUser} updateUserHandle={handleUpdateUser} setModalOpen={setIsModalActive}> {/*Всем дочерним элементам доступен контекст*/}
                 <Logo className='logo logo_place_header' href='/' />
                 <Routes>
                     <Route path="/" element={
