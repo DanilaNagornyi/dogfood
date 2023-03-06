@@ -3,7 +3,13 @@
     flex-direction: column;
     gap: 20px;
     width: 400px;
+    margin: 0 auto;
 }
+
+.title {
+    text-align: center;
+}
+
 .input {
     border: 1px solid var(--border-grey-10);
 }
@@ -14,4 +20,16 @@
 
 .errorMessage {
     color: var(--primary-red-100);
+}
+
+.description {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--secondary-text);
+    margin: 0;
+}
+
+.resetPassword {
+    text-align: right;
 }
