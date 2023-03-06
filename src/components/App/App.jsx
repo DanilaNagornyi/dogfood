@@ -1,3 +1,4 @@
+import {Route, Routes, useLocation} from "react-router-dom";
 import Header from "../Header/Header";
 import {useCallback, useEffect, useState} from "react";
 import Logo from "../Logo/Logo";
@@ -7,7 +8,6 @@ import api from "../../utils/api";
 import SearchInfo from "../SearchInfo/SearchInfo";
 import useDebounce from "../../hooks/useDebounce";
 import {isLiked} from "../../utils/products";
-import {Route, Routes} from "react-router-dom";
 import CatalogPage from "../../pages/CatalogPage/CatalogPage";
 import ProductPage from "../../pages/ProductPage/ProductPage";
 import NotFoundPage from "../../pages/ NotFoundPage/NotFoundPage";
@@ -16,6 +16,8 @@ import {CardContext} from "../../context/cardContext";
 import FavouritesPage from "../../pages/FavouritesPage/FavouritesPage";
 import RegistrationForm from "../../components/Forms/RegistrationForm/RegistrationForm";
 import Modal from "../Modal/Modal";
+import LoginForm from "../Forms/LoginForm/LoginForm";
+import ResetPasswordForm from "../Forms/ResetPasswordForm/ResetPasswordForm";
 
 function Application() {
     const [cards, setCards] = useState([]);
@@ -24,8 +26,10 @@ function Application() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [contacts, setContacts] = useState([]);
-    const [isModalActive, setIsModalActive] = useState(false);
     const debounceSearchQuery = useDebounce(searchQuery, 300);
+    const location = useLocation();
+    const backgroundLocation = location.state?.backgroundLocation;
+    const initialPath = location.state?.initialPath;
     const addContact = (contactInfo) => {
         setContacts([...contacts, contactInfo]);
     }
@@ -48,7 +52,7 @@ function Application() {
     useEffect(() => {
         handleRequest();
         console.log('INPUT', debounceSearchQuery)
-    },[debounceSearchQuery]);
+    }, [debounceSearchQuery]);
 
     const handleRequest = () => {
         setIsLoading(true);
@@ -59,10 +63,12 @@ function Application() {
                 setIsLoading(false);
             })
     }
+
     function handleFormSubmit(e) {
         e.preventDefault();
         handleRequest();
     }
+
     const handleInputChange = (inputValue) => {
         setSearchQuery(inputValue);
     }
@@ -93,30 +99,55 @@ function Application() {
     }, [cards, currentUser])
 
     return (
-        <UserContext.Provider value={{user: currentUser, isLoading}}> {/* Внедряем данные из стейта currentUser  с помощью провайдера контекста*/}
+        <UserContext.Provider value={{
+            user: currentUser,
+            isLoading
+        }}> {/* Внедряем данные из стейта currentUser  с помощью провайдера контекста*/}
             <CardContext.Provider value={{cards, favourites, handleLike: handleProductLike, isLoading}}>
-                <Modal active={isModalActive} setActive={setIsModalActive}>
-                   <RegistrationForm addContact={addContact} />
-                </Modal>
-            <Header user={currentUser} updateUserHandle={handleUpdateUser} setModalOpen={setIsModalActive}> {/*Всем дочерним элементам доступен контекст*/}
-                <Logo className='logo logo_place_header' href='/' />
-                <Routes>
-                    <Route path="/" element={
-                        <Search onInput={handleInputChange} onSubmit={handleFormSubmit} />
-                    } />
-                </Routes>
+                <Header user={currentUser}
+                        updateUserHandle={handleUpdateUser}> {/*Всем дочерним элементам доступен контекст*/}
+                    <Logo className='logo logo_place_header' href='/'/>
+                    <Routes>
+                        <Route path="/" element={
+                            <Search onInput={handleInputChange} onSubmit={handleFormSubmit}/>
+                        }/>
+                    </Routes>
 
-            </Header>
-            <main className='content container'>
-                <SearchInfo searchCount={cards.length} searchText={searchQuery} />
-                <Routes>
-                    <Route index element={<CatalogPage />} />
-                    <Route path="/product/:productId" element={<ProductPage />} />
-                    <Route path="/favourites" element={<FavouritesPage />} />
-                    <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-            </main>
-            <Footer />
+                </Header>
+                <main className='content container'>
+                    <SearchInfo searchCount={cards.length} searchText={searchQuery}/>
+                    <Routes
+                        location={(backgroundLocation && {...backgroundLocation, pathname: initialPath}) || location}>
+                        <Route index element={<CatalogPage/>}/>
+                        <Route path="/product/:productId" element={<ProductPage/>}/>
+                        <Route path="/favourites" element={<FavouritesPage/>}/>
+                        <Route path="/login" element={<LoginForm/>}/>
+                        <Route path="/registration" element={<RegistrationForm/>}/>
+                        <Route path="/reset-password" element={<ResetPasswordForm/>}/>
+                        <Route path="*" element={<NotFoundPage/>}/>
+                    </Routes>
+
+                    {backgroundLocation && (
+                        <Routes>
+                            <Route path="/login" element={
+                                <Modal>
+                                    <LoginForm linkState={{backgroundLocation: location, initialPath}}/>
+                                </Modal>
+                            }/>
+                            <Route path="/registration" element={
+                                <Modal>
+                                    <RegistrationForm linkState={{backgroundLocation: location, initialPath}}/>
+                                </Modal>
+                            }/>
+                            <Route path="/reset-password" element={
+                                <Modal>
+                                    <ResetPasswordForm linkState={{backgroundLocation: location, initialPath}}/>
+                                </Modal>
+                            }/>
+                        </Routes>
+                    )}
+                </main>
+                <Footer/>
             </CardContext.Provider>
         </UserContext.Provider>
     )

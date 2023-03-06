@@ -1,14 +1,16 @@
 import React from 'react';
-import { useForm } from "react-hook-form";
+import s from "../RegistrationForm/RegistrationForm.module.css";
+import cn from "classnames";
 import Button from "../../Button/Button";
+import {useForm} from "react-hook-form";
 import InputText from "../../InputText/InputText";
-import s from './RegistrationForm.module.css';
+import {Link} from "react-router-dom";
 
-const RegistrationForm = ({addContact, linkState}) => {
+const LoginForm = ({linkState}) => {
     const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
-
     const onSubmit = (data) => {
-        console.log('data-->', data)
+        console.log('data-->', data);
+
     }
 
     const emailRegister = register('email', {
@@ -29,7 +31,7 @@ const RegistrationForm = ({addContact, linkState}) => {
 
     return (
         <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-            <h3 className={s.title}>Регистрация</h3>
+            <h3 className={s.title}>Вход</h3>
             <InputText
                 {...emailRegister}
                 placeholder="Ваш email"
@@ -40,13 +42,21 @@ const RegistrationForm = ({addContact, linkState}) => {
                 placeholder="Ваш пароль"
                 errorText={errors.password?.message}
             />
-            <p className={s.description}>Регистрируясь на сайте, вы соглашаетесь с нашими Правилами и Политикой
-                конфиденциальности и соглашаетесь
-                на информационную рассылку.</p>
-            <Button>Зарегистрироваться</Button>
-            <Button href="/login" linkState={linkState} look="secondary" type="button">Войти</Button>
+            <Link
+                to="/reset-password"
+                className={cn(s.description, s.resetPassword)}
+                state={linkState}
+            >Восстановить пароль</Link>
+            <Button>Войти</Button>
+            <Button href="/registration"
+                    linkState={linkState}
+                    look="secondary"
+                    type="button"
+            >
+                Зарегистрироваться
+            </Button>
         </form>
     );
 };
 
-export default RegistrationForm;
+export default LoginForm;

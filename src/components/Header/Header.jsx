@@ -1,16 +1,15 @@
 import s from './Header.module.css';
 import cn from 'classnames';
-import {Link} from "react-router-dom";
-import { ReactComponent as FavouriteIcon } from './img/favorites.svg';
-import { ReactComponent as UserIcon } from './img/profile.svg';
+import {Link, useLocation} from "react-router-dom";
+import {ReactComponent as FavouriteIcon} from './img/favorites.svg';
+import {ReactComponent as UserIcon} from './img/profile.svg';
 import {useContext} from "react";
 import {CardContext} from "../../context/cardContext";
-const Header = ({ children, setModalOpen }) => {
-    const { favourites } = useContext(CardContext);
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
+const Header = ({children}) => {
+    const {favourites} = useContext(CardContext);
+    const location = useLocation();
+    console.log('location', location);
 
     return (
         <header className={cn(s.header, 'cover')}>
@@ -19,12 +18,15 @@ const Header = ({ children, setModalOpen }) => {
                     {children}
                     <div className={s.iconsMenu}>
                         <Link className={s.favouritesLink} to='/favourites'>
-                            <FavouriteIcon />
+                            <FavouriteIcon/>
                             {favourites.length !== 0 && <span className={s.iconBubble}>{favourites.length}</span>}
                         </Link>
 
-                        <div className={s.userIcon} onClick={handleOpenModal}>
-                            <UserIcon />
+                        <div className={s.userIcon}>
+                            <Link to="/login" state={{
+                                backgroundLocation: location,
+                                initialPath: location.pathname
+                            }}><UserIcon/></Link>
                         </div>
                     </div>
                 </div>
