@@ -1,38 +1,43 @@
-import React, {useCallback, useContext} from 'react';
-import api from "../../utils/api";
+import React, {useCallback, useEffect} from 'react';
+
 import Spinner from "../../components/Spiner/Spiner";
 import Product from "../../components/Product/Product";
 import s from '../../components/Product/Product.module.css'
 import {useParams} from "react-router-dom";
 import NotFoundPage from "../../pages/ NotFoundPage/NotFoundPage";
-import useApi from "../../hooks/useApi";
-import {CardContext} from "../../context/cardContext";
+import {useDispatch, useSelector} from "react-redux";
+import {getSingleProductThunk} from "../../redux/redux-thunk/singleProduct-thunk/getSingleProductThunk";
+import {changeLikeProductThunk} from "../../redux/redux-thunk/products-thunk/changeLikeProductThunk";
+import {setProductState} from "../../redux/redux-slice/singleProduct/singleProductSlice";
 
 const ProductPage = () => {
-    const { productId } = useParams();
-    const { handleLike } = useContext(CardContext);
-    const handleGetProduct = useCallback(() => api.getProductById(productId), [productId]);
-    const { data: product, setData: setProduct, isLoading, error: isError } = useApi(handleGetProduct);
+    const {productId} = useParams();
+    const dispatch = useDispatch();
+    const {singleProduct, isLoading, error: isError} = useSelector(state => state.singleProduct);
+
+    useEffect(() => {
+        dispatch(getSingleProductThunk(productId))
+    }, [dispatch, productId])
 
     const handleProductLike = useCallback(() => {
-        handleLike(product).then((updateProduct) => {
-            setProduct(updateProduct);
+        dispatch(changeLikeProductThunk(singleProduct)).then(updateProduct => {
+            dispatch(setProductState(updateProduct.payload.product));
         })
-    }, [product, setProduct, handleLike]);
+    }, [dispatch, singleProduct]);
 
-  return (
-      <>
-          {isLoading ? (
-                  <div className={s.wrapperLoader}>
-                      <Spinner />
-                  </div>
-              ) : (
-              !isError && <Product {...product} onProductLike={handleProductLike} />)}
-          {isError ? (
-              <NotFoundPage />
-          ): null}
-      </>
-  );
+    return (
+        <>
+            {isLoading ? (
+                <div className={s.wrapperLoader}>
+                    <Spinner/>
+                </div>
+            ) : (
+                !isError && <Product {...singleProduct} onProductLike={handleProductLike}/>)}
+            {isError ? (
+                <NotFoundPage/>
+            ) : null}
+        </>
+    );
 };
 
 export default ProductPage;
