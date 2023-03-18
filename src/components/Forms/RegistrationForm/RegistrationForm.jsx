@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import Button from "../../Button/Button";
 import InputText from "../../InputText/InputText";
 import s from './RegistrationForm.module.css';
@@ -19,11 +19,11 @@ const RegistrationForm = ({addContact, linkState}) => {
         }
     });
 
-    const passwordRegister = register('email', {
+    const passwordRegister = register('password', {
         required: 'Обязательное поле',
         pattern: {
-            value: /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/,
-            message: 'Не валидный email'
+            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+            message: 'Нужен пароль сложнее'
         }
     });
 

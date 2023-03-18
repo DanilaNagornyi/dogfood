@@ -6,7 +6,6 @@ import Button from "../../Button/Button";
 
 const ResetPasswordForm = () => {
     const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
-
     const onSubmit = (data) => {
         console.log('data-->', data);
 
@@ -19,7 +18,6 @@ const ResetPasswordForm = () => {
             message: 'Не валидный email'
         }
     });
-
 
     return (
         <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
