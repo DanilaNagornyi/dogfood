@@ -18,6 +18,7 @@ import ResetPasswordForm from "../Forms/ResetPasswordForm/ResetPasswordForm";
 import {useDispatch} from "react-redux";
 import {getAllProductsThunk} from "../../redux/redux-thunk/products-thunk/getAllProductsThunk";
 import {getUserInfoThunk} from "../../redux/redux-thunk/user-thunk/getUserInfoThunk";
+import FAQPage from "../../pages/FAQPage/FAQPage";
 
 function Application() {
     const [cards, setCards] = useState([]);
@@ -89,6 +90,7 @@ function Application() {
                     <Route path="/product/:productId" element={<ProductPage/>}/>
                     <Route path="/favourites" element={<FavouritesPage/>}/>
                     <Route path="/login" element={<LoginForm/>}/>
+                    <Route path="/faq" element={<FAQPage/>}/>
                     <Route path="/registration" element={<RegistrationForm/>}/>
                     <Route path="/reset-password" element={<ResetPasswordForm/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
