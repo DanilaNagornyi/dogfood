@@ -1,9 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {isError} from "../../../utils/utilStore";
 import {getUserInfoThunk} from "../../redux-thunk/user-thunk/getUserInfoThunk";
+import {registrationThunk} from "../../redux-thunk/user-thunk/registrationThunk";
+import {loginThunk} from "../../redux-thunk/user-thunk/loginThunk";
+import {checkTokenThunk} from "../../redux-thunk/user-thunk/checkTokenThunk";
 
 const initialState = {
+    isAuth: false,
     userInfo: {},
+    isRegistrationSuccess: false,
     isLoading: false,
     error: null
 }
@@ -18,6 +23,43 @@ const userSlice = createSlice({
         })
 
         builder.addCase(getUserInfoThunk.pending, state => {
+            state.error = null;
+            state.isLoading = true;
+        })
+
+        builder.addCase(registrationThunk.fulfilled, (state, action) => {
+            if (Object.keys(action.payload).length > 0) {
+                state.isRegistrationSuccess = true;
+                state.isLoading = false;
+            }
+        })
+
+        builder.addCase(registrationThunk.pending, state => {
+            state.error = null;
+            state.isLoading = true;
+        })
+
+        builder.addCase(loginThunk.fulfilled, (state, action) => {
+            if (Object.keys(action.payload).length > 0) {
+                state.userInfo = action.payload.data;
+                state.isLoading = false;
+            }
+        })
+
+        builder.addCase(loginThunk.pending, state => {
+            state.error = null;
+            state.isLoading = true;
+        })
+
+        builder.addCase(checkTokenThunk.fulfilled, (state, action) => {
+            if (Object.keys(action.payload).length > 0) {
+                state.userInfo = action.payload;
+                state.isAuth = true;
+                state.isLoading = false;
+            }
+        })
+
+        builder.addCase(checkTokenThunk.pending, state => {
             state.error = null;
             state.isLoading = true;
         })

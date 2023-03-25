@@ -5,7 +5,7 @@ import cn from "classnames";
 import {ReactComponent as Save} from "./image/save.svg";
 import truck from './image/truck.svg'
 import quality from './image/quality.svg'
-import ContentHeader from "../ContentHeader/ContentHeader";
+import ContentHeader from "../layout/ContentHeader/ContentHeader";
 import {useSelector} from "react-redux";
 
 const Product = ({_id, onProductLike, available, description, discount, price, name, pictures, likes}) => {

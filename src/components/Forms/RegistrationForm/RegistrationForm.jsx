@@ -3,27 +3,41 @@ import {useForm} from "react-hook-form";
 import Button from "../../Button/Button";
 import InputText from "../../InputText/InputText";
 import s from './RegistrationForm.module.css';
+import {REGEXP_EMAIL, REGEXP_GROUP, REGEXP_PASSWORD, VALIDATE_MESSAGE} from "../../../utils/constants";
+import {useDispatch, useSelector} from "react-redux";
+import {registrationThunk} from "../../../redux/redux-thunk/user-thunk/registrationThunk";
 
 const RegistrationForm = ({addContact, linkState}) => {
     const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
+    const {error: errorRedux} = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     const onSubmit = (data) => {
         console.log('data-->', data)
+        dispatch(registrationThunk(data))
     }
 
     const emailRegister = register('email', {
-        required: 'Обязательное поле',
+        required: VALIDATE_MESSAGE.requiredMessage,
         pattern: {
-            value: /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/,
-            message: 'Не валидный email'
+            value: REGEXP_EMAIL,
+            message: VALIDATE_MESSAGE.emailMessage
         }
     });
 
     const passwordRegister = register('password', {
-        required: 'Обязательное поле',
+        required: VALIDATE_MESSAGE.requiredMessage,
         pattern: {
-            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-            message: 'Нужен пароль сложнее'
+            value: REGEXP_PASSWORD,
+            message: VALIDATE_MESSAGE.passwordMessage
+        }
+    });
+
+    const groupRegister = register('group', {
+        required: VALIDATE_MESSAGE.requiredMessage,
+        pattern: {
+            value: REGEXP_GROUP,
+            message: VALIDATE_MESSAGE.groupMessage
         }
     });
 
@@ -38,11 +52,20 @@ const RegistrationForm = ({addContact, linkState}) => {
             <InputText
                 {...passwordRegister}
                 placeholder="Ваш пароль"
+                // type="password"
                 errorText={errors.password?.message}
+            />
+            <InputText
+                {...groupRegister}
+                placeholder="Укажите вашу группу"
+                errorText={errors.group?.message}
             />
             <p className={s.description}>Регистрируясь на сайте, вы соглашаетесь с нашими Правилами и Политикой
                 конфиденциальности и соглашаетесь
                 на информационную рассылку.</p>
+            {errorRedux ? (
+                <p className={s.errorMessage}>{errorRedux.message}</p>
+            ) : null}
             <Button>Зарегистрироваться</Button>
             <Button href="/login" linkState={linkState} look="secondary" type="button">Войти</Button>
         </form>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Accordion from "../../components/Accordion/Accordion";
-import ContentHeader from "../../components/ContentHeader/ContentHeader";
+import ContentHeader from "../../components/layout/ContentHeader/ContentHeader";
 import {fagData} from "./data";
 
 const FAQPage = () => {

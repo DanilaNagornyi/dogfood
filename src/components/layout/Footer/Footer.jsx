@@ -4,7 +4,7 @@ import instagram from "./img/instagram.svg";
 import viber from "./img/viber.svg";
 import whatsapp from "./img/whatsapp.svg";
 import vk from "./img/vk.svg";
-import Logo from "../Logo/Logo";
+import Logo from "../../Logo/Logo";
 import {Link} from "react-router-dom";
 
 
@@ -28,11 +28,11 @@ const Footer = () => {
                                 Акции
                             </a>
                             <a href="/catalogue" className="menu-bottom__item">
-                                Новости
-                            </a>
-                            <a href="/catalogue" className="menu-bottom__item">
                                 Отзывы
                             </a>
+                            <Link to="/login" className="menu-bottom__item">
+                                Авторизация
+                            </Link>
                         </nav>
                     </div>
                     <div className="footer__col">

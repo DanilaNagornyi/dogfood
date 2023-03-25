@@ -46,6 +46,31 @@ class Api {
             headers: this._headers,
         }).then(onResponse)
     }
+
+    register(dataUser) {
+        return fetch(`${this._baseUrl}/signup`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify(dataUser),
+        }).then(onResponse)
+    }
+
+    login(dataUser) {
+        return fetch(`${this._baseUrl}/signin`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify(dataUser),
+        }).then(onResponse)
+    }
+
+    checkToken(token) {
+        return fetch(`${this._baseUrl}/users/me`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }).then(onResponse)
+    }
 }
 
 const config = {
