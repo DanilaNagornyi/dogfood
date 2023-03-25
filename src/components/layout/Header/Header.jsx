@@ -7,6 +7,7 @@ import {useSelector} from "react-redux";
 
 const Header = ({children}) => {
     const {favourites} = useSelector(state => state.products);
+    const {isAuth} = useSelector(state => state.user);
     const location = useLocation();
 
     return (
@@ -20,12 +21,21 @@ const Header = ({children}) => {
                             {favourites.length !== 0 && <span className={s.iconBubble}>{favourites.length}</span>}
                         </Link>
 
-                        <div className={s.userIcon}>
+                        {isAuth ? (
+                            <div className={s.userIcon}>
+                                <Link to="profile"><UserIcon/></Link>
+                            </div>
+                        ) : (
                             <Link to="/login" state={{
                                 backgroundLocation: location,
                                 initialPath: location.pathname
-                            }}><UserIcon/></Link>
-                        </div>
+                            }}
+                                  style={{textDecoration: 'none'}}>
+                                <div className={s.wrapperEntry}>
+                                    Войти
+                                </div>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>

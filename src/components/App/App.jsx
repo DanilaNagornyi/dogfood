@@ -1,9 +1,9 @@
 import {Route, Routes, useLocation} from "react-router-dom";
-import Header from "../Header/Header";
+import Header from "../layout/Header/Header";
 import {useEffect, useState} from "react";
 import Logo from "../Logo/Logo";
 import Search from "../Search/Search";
-import Footer from "../Footer/Footer";
+import Footer from "../layout/Footer/Footer";
 import api from "../../utils/api";
 import SearchInfo from "../SearchInfo/SearchInfo";
 import useDebounce from "../../hooks/useDebounce";
@@ -19,6 +19,9 @@ import {useDispatch} from "react-redux";
 import {getAllProductsThunk} from "../../redux/redux-thunk/products-thunk/getAllProductsThunk";
 import {getUserInfoThunk} from "../../redux/redux-thunk/user-thunk/getUserInfoThunk";
 import FAQPage from "../../pages/FAQPage/FAQPage";
+import MainPage from "../../pages/MainPage/MainPage";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import {checkTokenThunk} from "../../redux/redux-thunk/user-thunk/checkTokenThunk";
 
 function Application() {
     const [cards, setCards] = useState([]);
@@ -31,13 +34,18 @@ function Application() {
     const initialPath = location.state?.initialPath;
 
     const dispatch = useDispatch();
+    const token = localStorage.getItem('jwt');
+    console.log('token-->', token)
 
     useEffect(() => {
-        const userData = dispatch(getUserInfoThunk());
-        userData.then(() => {
-            dispatch(getAllProductsThunk());
-        })
-    }, [dispatch]);
+        const userData = dispatch(checkTokenThunk(token));
+        if (token) {
+            userData.then(() => {
+                dispatch(getAllProductsThunk());
+            })
+
+        }
+    }, [dispatch, token]);
 
 
     useEffect(() => {
@@ -76,7 +84,7 @@ function Application() {
                     updateUserHandle={handleUpdateUser}> {/*Всем дочерним элементам доступен контекст*/}
                 <Logo className='logo logo_place_header' href='/'/>
                 <Routes>
-                    <Route path="/" element={
+                    <Route path="/catalog" element={
                         <Search onInput={handleInputChange} onSubmit={handleFormSubmit}/>
                     }/>
                 </Routes>
@@ -86,32 +94,59 @@ function Application() {
                 <SearchInfo searchCount={cards.length} searchText={searchQuery}/>
                 <Routes
                     location={(backgroundLocation && {...backgroundLocation, pathname: initialPath}) || location}>
-                    <Route index element={<CatalogPage/>}/>
-                    <Route path="/product/:productId" element={<ProductPage/>}/>
+                    <Route index element={<MainPage/>}/>
+                    <Route path="/catalog" element={
+                        <ProtectedRoute>
+                            <CatalogPage/>
+                        </ProtectedRoute>
+                    }/>
+                    <Route path="/product/:productId" element={
+                        <ProtectedRoute>
+                            <ProductPage/>
+                        </ProtectedRoute>
+                    }/>
                     <Route path="/favourites" element={<FavouritesPage/>}/>
-                    <Route path="/login" element={<LoginForm/>}/>
+                    <Route path="/login" element={
+                        <ProtectedRoute isOnlyAuth>
+                            <LoginForm/>
+                        </ProtectedRoute>
+                    }/>
                     <Route path="/faq" element={<FAQPage/>}/>
-                    <Route path="/registration" element={<RegistrationForm/>}/>
-                    <Route path="/reset-password" element={<ResetPasswordForm/>}/>
+                    <Route path="/registration" element={
+                        <ProtectedRoute isOnlyAuth>
+                            <RegistrationForm/>
+                        </ProtectedRoute>
+                    }/>
+                    <Route path="/reset-password" element={
+                        <ProtectedRoute isOnlyAuth>
+                            <ResetPasswordForm/>
+                        </ProtectedRoute>
+                    }/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
 
                 {backgroundLocation && (
                     <Routes>
                         <Route path="/login" element={
-                            <Modal>
-                                <LoginForm linkState={{backgroundLocation: location, initialPath}}/>
-                            </Modal>
+                            <ProtectedRoute isOnlyAuth>
+                                <Modal>
+                                    <LoginForm linkState={{backgroundLocation: location, initialPath}}/>
+                                </Modal>
+                            </ProtectedRoute>
                         }/>
                         <Route path="/registration" element={
-                            <Modal>
-                                <RegistrationForm linkState={{backgroundLocation: location, initialPath}}/>
-                            </Modal>
+                            <ProtectedRoute isOnlyAuth>
+                                <Modal>
+                                    <RegistrationForm linkState={{backgroundLocation: location, initialPath}}/>
+                                </Modal>
+                            </ProtectedRoute>
                         }/>
                         <Route path="/reset-password" element={
-                            <Modal>
-                                <ResetPasswordForm linkState={{backgroundLocation: location, initialPath}}/>
-                            </Modal>
+                            <ProtectedRoute isOnlyAuth>
+                                <Modal>
+                                    <ResetPasswordForm linkState={{backgroundLocation: location, initialPath}}/>
+                                </Modal>
+                            </ProtectedRoute>
                         }/>
                     </Routes>
                 )}
