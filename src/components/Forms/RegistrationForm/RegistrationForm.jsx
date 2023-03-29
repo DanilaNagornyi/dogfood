@@ -14,7 +14,7 @@ const RegistrationForm = ({addContact, linkState}) => {
 
     const onSubmit = (data) => {
         console.log('data-->', data)
-        dispatch(registrationThunk(data))
+        dispatch(registrationThunk(data));
     }
 
     const emailRegister = register('email', {

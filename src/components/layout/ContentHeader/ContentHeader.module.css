@@ -13,6 +13,7 @@
     line-height: 20px;
     text-decoration: none;
     color: var(--secondary-text);
+    cursor: pointer;
 }
 
 .buttonBack:hover {

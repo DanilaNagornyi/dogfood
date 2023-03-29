@@ -1,14 +1,23 @@
 import s from './Header.module.css';
 import cn from 'classnames';
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ReactComponent as FavouriteIcon} from './img/favorites.svg';
 import {ReactComponent as UserIcon} from './img/profile.svg';
-import {useSelector} from "react-redux";
+import {ReactComponent as Logout} from './img/logout.svg';
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../../../redux/redux-slice/user/userSlice";
 
 const Header = ({children}) => {
     const {favourites} = useSelector(state => state.products);
     const {isAuth} = useSelector(state => state.user);
     const location = useLocation();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate(0);
+    }
 
     return (
         <header className={cn(s.header, 'cover')}>
@@ -22,9 +31,14 @@ const Header = ({children}) => {
                         </Link>
 
                         {isAuth ? (
-                            <div className={s.userIcon}>
-                                <Link to="profile"><UserIcon/></Link>
-                            </div>
+                            <>
+                                <div>
+                                    <Link to="profile"><UserIcon/></Link>
+                                </div>
+                                <div onClick={handleLogout}>
+                                    <Logout/>
+                                </div>
+                            </>
                         ) : (
                             <Link to="/login" state={{
                                 backgroundLocation: location,

@@ -7,7 +7,7 @@ export const loginThunk = createAsyncThunk(
             const data = await api.login(dataAuth);
 
             if (data.token) {
-                localStorage.setItem('jwt', data.token)
+                localStorage.setItem('jwt', data.token);
             } else {
                 return rejectWithValue(data);
             }

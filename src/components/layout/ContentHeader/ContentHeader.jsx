@@ -8,7 +8,7 @@ const ContentHeader = ({title, children}) => {
 
     return (
         <div>
-            <a href="src/components/layout/ContentHeader#" className={s.buttonBack} onClick={() => navigate(-1)}>
+            <a className={s.buttonBack} onClick={() => navigate(-1)}>
                 <Arrow/>Назад</a>
             <h1 className={s.title}>{title}</h1>
             {children}
