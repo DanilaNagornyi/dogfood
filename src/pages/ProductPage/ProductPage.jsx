@@ -4,7 +4,7 @@ import Spinner from "../../components/Spiner/Spiner";
 import Product from "../../components/Product/Product";
 import s from '../../components/Product/Product.module.css'
 import {useParams} from "react-router-dom";
-import NotFoundPage from "../../pages/ NotFoundPage/NotFoundPage";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import {useDispatch, useSelector} from "react-redux";
 import {getSingleProductThunk} from "../../redux/redux-thunk/singleProduct-thunk/getSingleProductThunk";
 import {changeLikeProductThunk} from "../../redux/redux-thunk/products-thunk/changeLikeProductThunk";
@@ -14,6 +14,8 @@ const ProductPage = () => {
     const {productId} = useParams();
     const dispatch = useDispatch();
     const {singleProduct, isLoading, error: isError} = useSelector(state => state.singleProduct);
+
+    console.log('singleProduct-->', singleProduct);
 
     useEffect(() => {
         dispatch(getSingleProductThunk(productId))

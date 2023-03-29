@@ -15,7 +15,13 @@ const initialState = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            state.userInfo = {};
+            state.isAuth = false;
+            localStorage.removeItem('jwt');
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getUserInfoThunk.fulfilled, (state, action) => {
             state.userInfo = action.payload;
@@ -43,6 +49,9 @@ const userSlice = createSlice({
             if (Object.keys(action.payload).length > 0) {
                 state.userInfo = action.payload.data;
                 state.isLoading = false;
+                if (action.payload.token) {
+                    state.isAuth = true;
+                }
             }
         })
 
@@ -67,9 +76,12 @@ const userSlice = createSlice({
         builder.addMatcher(isError, (state, action) => {
             state.error = action.payload;
             state.isLoading = false;
+            // state.isAuth = false;
+
         })
     }
 })
 
+export const {logout} = userSlice.actions;
 
 export default userSlice.reducer;

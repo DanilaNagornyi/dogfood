@@ -23,20 +23,13 @@
     height: 34px;
 }
 
-.userIcon {
-    cursor: pointer;
-}
-
-.userIcon svg:hover {
-    opacity: .8;
-}
-
 .iconsMenu svg {
     width: 100%;
     height: 100%;
 }
 
 .iconsMenu svg:hover {
+    cursor: pointer;
     opacity: .8;
 }
 

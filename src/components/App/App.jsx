@@ -9,7 +9,7 @@ import SearchInfo from "../SearchInfo/SearchInfo";
 import useDebounce from "../../hooks/useDebounce";
 import CatalogPage from "../../pages/CatalogPage/CatalogPage";
 import ProductPage from "../../pages/ProductPage/ProductPage";
-import NotFoundPage from "../../pages/ NotFoundPage/NotFoundPage";
+import NotFoundPage from "../../pages/NotFoundPage/NotFoundPage";
 import FavouritesPage from "../../pages/FavouritesPage/FavouritesPage";
 import RegistrationForm from "../../components/Forms/RegistrationForm/RegistrationForm";
 import Modal from "../Modal/Modal";
@@ -17,11 +17,12 @@ import LoginForm from "../Forms/LoginForm/LoginForm";
 import ResetPasswordForm from "../Forms/ResetPasswordForm/ResetPasswordForm";
 import {useDispatch} from "react-redux";
 import {getAllProductsThunk} from "../../redux/redux-thunk/products-thunk/getAllProductsThunk";
-import {getUserInfoThunk} from "../../redux/redux-thunk/user-thunk/getUserInfoThunk";
 import FAQPage from "../../pages/FAQPage/FAQPage";
 import MainPage from "../../pages/MainPage/MainPage";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {checkTokenThunk} from "../../redux/redux-thunk/user-thunk/checkTokenThunk";
+
+import ProfilePage from "../../pages/ProfilePage/ProfilePage";
 
 function Application() {
     const [cards, setCards] = useState([]);
@@ -35,13 +36,12 @@ function Application() {
 
     const dispatch = useDispatch();
     const token = localStorage.getItem('jwt');
-    console.log('token-->', token)
 
     useEffect(() => {
         const userData = dispatch(checkTokenThunk(token));
         if (token) {
             userData.then(() => {
-                dispatch(getAllProductsThunk());
+                dispatch(getAllProductsThunk(token));
             })
 
         }
@@ -49,13 +49,15 @@ function Application() {
 
 
     useEffect(() => {
-        handleRequest();
-        console.log('INPUT', debounceSearchQuery)
+        if (token) {
+            handleRequest();
+            console.log('INPUT', debounceSearchQuery)
+        }
     }, [debounceSearchQuery]);
 
     const handleRequest = () => {
         setIsLoading(true);
-        api.search(debounceSearchQuery).then(data => {
+        api.search(debounceSearchQuery, token).then(data => {
             setCards(data);
         }).catch(err => console.error(err))
             .finally(() => {
@@ -96,16 +98,17 @@ function Application() {
                     location={(backgroundLocation && {...backgroundLocation, pathname: initialPath}) || location}>
                     <Route index element={<MainPage/>}/>
                     <Route path="/catalog" element={
-                        <ProtectedRoute>
-                            <CatalogPage/>
-                        </ProtectedRoute>
+                        <CatalogPage/>
                     }/>
                     <Route path="/product/:productId" element={
-                        <ProtectedRoute>
-                            <ProductPage/>
-                        </ProtectedRoute>
+                        <ProductPage/>
                     }/>
                     <Route path="/favourites" element={<FavouritesPage/>}/>
+                    <Route path="/profile" element={
+                        <ProtectedRoute>
+                            <ProfilePage/>
+                        </ProtectedRoute>
+                    }/>
                     <Route path="/login" element={
                         <ProtectedRoute isOnlyAuth>
                             <LoginForm/>

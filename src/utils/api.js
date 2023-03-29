@@ -8,9 +8,12 @@ class Api {
         this._baseUrl = baseUrl;
     }
 
-    getProductList() {
+    getProductList(token) {
         return fetch(`${this._baseUrl}/products`, {
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(onResponse)
     }
 
@@ -20,9 +23,12 @@ class Api {
         }).then(onResponse)
     }
 
-    getProductById(idProduct) {
+    getProductById(idProduct, token) {
         return fetch(`${this._baseUrl}/products/${idProduct}`, {
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(onResponse)
     }
 
@@ -34,16 +40,22 @@ class Api {
         }).then(onResponse)
     }
 
-    search(searchQuery) {
+    search(searchQuery, token) {
         return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, {
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(onResponse)
     }
 
-    changeLikeProduct(productId, isLike) {
+    changeLikeProduct(productId, isLike, token) {
         return fetch(`${this._baseUrl}/products/likes/${productId}`, {
             method: isLike ? 'DELETE' : 'PUT',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(onResponse)
     }
 
@@ -77,7 +89,8 @@ const config = {
     baseUrl: 'https://api.react-learning.ru',
     headers: {
         'Content-Type': 'application/json',
-        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2U3NjhjMDU5Yjk4YjAzOGY3N2I1MTIiLCJncm91cCI6ImZyb250MTAiLCJpYXQiOjE2NzYxMTAwNzMsImV4cCI6MTcwNzY0NjA3M30.luanAfhT-QPcFluquX55gosHGNa0vl_x42wo9mBy3h8'
+        // Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDFlZGM2N2FhMzk3MTIxODM5YzcwMGQiLCJncm91cCI6Imdyb3VwLTEwIiwiaWF0IjoxNjgwMTA4NzgzLCJleHAiOjE3MTE2NDQ3ODN9.PefoqEmN_xO9zqsJHrDpey3SuyBVZKnrAmNyNjYZGqI'
+        // Authorization: `Bearer ${token}`
     }
 }
 

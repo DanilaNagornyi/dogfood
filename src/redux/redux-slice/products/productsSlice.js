@@ -34,7 +34,6 @@ const productsSlice = createSlice({
                 default:
                     state.products = state.products.sort((a, b) => b.likes.length - a.likes.length);
                     state.currentSort = SORTED.POPULAR;
-
             }
         }
     },
