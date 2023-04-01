@@ -1,47 +1,53 @@
 @import "~normalize.css";
 
 * {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
+
 html {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 body {
-  font-family: "Nunito", "Arial", "Helvetica", sans-serif;
+    font-family: "Nunito", "Arial", "Helvetica", sans-serif;
 }
 
 .container {
-  max-width: 1024px;
-  padding-left: 16px;
-  padding-right: 16px;
-  width: 95%;
-  margin: 0 auto;
+    max-width: 1024px;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.container__inner {
+    margin-top: 20px;
 }
 
 img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 .content {
-  padding: 20px 0;
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .content__sort {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }
 
 #root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 :root {
-  --text-main-color: #1A1A1A;
+    --text-main-color: #1A1A1A;
 
-  --primary-main-color: #FFE44D;
-  --primary-red-100: #F44336;
-  --border-grey-10: #CFD8DC;
-  --secondary-text: #7B8E98;
+    --primary-main-color: #FFE44D;
+    --primary-red-100: #F44336;
+    --border-grey-10: #CFD8DC;
+    --secondary-text: #7B8E98;
+    --star-color: #FFAA0D;
 }

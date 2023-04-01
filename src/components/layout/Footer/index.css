@@ -8,7 +8,7 @@
 
 .footer {
     width: 100%;
-    background-color: #FFE44D;
+    background-color: var(--primary-main-color);
     padding-top: 40px;
     padding-bottom: 88px;
 }
@@ -19,7 +19,6 @@
     align-items: flex-start;
     gap: 10px;
 }
-
 
 
 .footer__col {
@@ -137,12 +136,15 @@
     .footer__logo {
         display: none;
     }
+
     .footer__copyright {
         display: none;
     }
+
     .menu-bottom {
         display: none;
     }
+
     .footer__wrapper {
         text-align: center;
         justify-content: center;

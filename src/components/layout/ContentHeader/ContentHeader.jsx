@@ -7,7 +7,7 @@ const ContentHeader = ({title, children}) => {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="container__inner">
             <a className={s.buttonBack} onClick={() => navigate(-1)}>
                 <Arrow/>Назад</a>
             <h1 className={s.title}>{title}</h1>
