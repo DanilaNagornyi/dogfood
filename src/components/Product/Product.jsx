@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import s from './Product.module.css';
 import {calcDiscountPrice, createMarkup, isLiked} from "../../utils/products";
 import cn from "classnames";
@@ -7,10 +7,13 @@ import truck from './image/truck.svg'
 import quality from './image/quality.svg'
 import ContentHeader from "../layout/ContentHeader/ContentHeader";
 import {useSelector} from "react-redux";
+import Rating from "../Rating/Rating";
+import rating from "../Rating/Rating";
 
-const Product = ({_id, onProductLike, available, description, discount, price, name, pictures, likes}) => {
+const Product = ({_id, onProductLike, available, description, discount, price, name, pictures, likes, reviews}) => {
     const {userInfo} = useSelector(state => state.user);
 
+    const ratingCount = useMemo(() => Math.round(reviews?.reduce((acc, r) => acc = acc + r.rating, 0) / rating?.length), [reviews]);
 
     const discountPrice = calcDiscountPrice(price, discount);
     const liked = isLiked(likes, userInfo?._id);
@@ -18,7 +21,10 @@ const Product = ({_id, onProductLike, available, description, discount, price, n
     return (
         <>
             <ContentHeader title={name}>
-                <span>Артикул: <b>2388907</b></span>
+                <div className={s.wrapperArticle}>
+                    <span>Артикул: <b>2388907</b></span>
+                    <Rating isEditable rating={ratingCount}/> {reviews?.length} отзыва
+                </div>
             </ContentHeader>
 
             <div className={s.product}>

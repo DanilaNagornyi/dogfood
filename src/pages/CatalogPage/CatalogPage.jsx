@@ -11,7 +11,7 @@ const CatalogPage = () => {
     const skeletonArray = skeletonFakeArray.map((el) => <CardSkeleton key={el}/>);
 
     return (
-        <>
+        <div className="container">
             <ContentHeader title="Каталог"/>
             <Sort/>
             {products.length === 0 ? (
@@ -21,7 +21,7 @@ const CatalogPage = () => {
             ) : (
                 <CardList cards={products}/>
             )}
-        </>
+        </div>
     );
 };
 

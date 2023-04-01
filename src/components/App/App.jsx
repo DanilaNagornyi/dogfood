@@ -92,7 +92,7 @@ function Application() {
                 </Routes>
 
             </Header>
-            <main className='content container'>
+            <main className='content'>
                 <SearchInfo searchCount={cards.length} searchText={searchQuery}/>
                 <Routes
                     location={(backgroundLocation && {...backgroundLocation, pathname: initialPath}) || location}>
