@@ -4,14 +4,14 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {ReactComponent as FavouriteIcon} from './img/favorites.svg';
 import {ReactComponent as UserIcon} from './img/profile.svg';
 import {ReactComponent as Logout} from './img/logout.svg';
-import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../../redux/redux-slice/user/userSlice";
+import {useAppDispatch, useAppSelector} from "../../../hooks/reduxHooks";
 
-const Header = ({children}) => {
-    const {favourites} = useSelector(state => state.products);
-    const {isAuth} = useSelector(state => state.user);
+const Header = ({children}): JSX.Element => {
+    const {favourites} = useAppSelector(state => state.products);
+    const {isAuth} = useAppSelector(state => state.user);
     const location = useLocation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const handleLogout = () => {
