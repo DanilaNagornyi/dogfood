@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.css": "/dogfood/static/css/main.3b0125c5.css",
-    "main.js": "/dogfood/static/js/main.5480bf5c.js",
+    "main.css": "/dogfood/static/css/main.ec5c01dc.css",
+    "main.js": "/dogfood/static/js/main.2da7d478.js",
+    "static/media/banner.png": "/dogfood/static/media/banner.051e6f9f3764ca4ea59e.png",
     "static/media/logo.svg": "/dogfood/static/media/logo.4f9d699de55eb25e196ecc4c87a15a5e.svg",
     "static/media/quality.svg": "/dogfood/static/media/quality.8eb6560a188790582a8aaddc99e116ea.svg",
     "static/media/instagram.svg": "/dogfood/static/media/instagram.54cbf40d1b69370b6a2ec029eefc269c.svg",
@@ -13,16 +14,19 @@
     "static/media/favorites.svg": "/dogfood/static/media/favorites.8afe51a3c0478c39f05c6dc2649cd60b.svg",
     "static/media/save.svg": "/dogfood/static/media/save.65277ad5538e2dd736d5a339ad1051ab.svg",
     "static/media/truck.svg": "/dogfood/static/media/truck.ea6acb9f2b133040e9f295fbb9f2a3ab.svg",
+    "static/media/logout.svg": "/dogfood/static/media/logout.17e6099a401fe7b0e792ab32c2cf9a7d.svg",
     "static/media/ic-close-input.svg": "/dogfood/static/media/ic-close-input.f01e03cf609912dcdf78b1a91e354837.svg",
+    "static/media/star.svg": "/dogfood/static/media/star.68de896b5b44a0fa1478b96d2793992a.svg",
     "static/media/ic-search.svg": "/dogfood/static/media/ic-search.296528dfccff6373f75e8f75d02e833a.svg",
     "index.html": "/dogfood/index.html",
     "static/media/leftArrow.svg": "/dogfood/static/media/leftArrow.5000f9a0272d00e6ab2e085d023625b3.svg",
     "static/media/telegram.svg": "/dogfood/static/media/telegram.95a5ca8a1ae0a13c18da2bca3f249bf5.svg",
-    "main.3b0125c5.css.map": "/dogfood/static/css/main.3b0125c5.css.map",
-    "main.5480bf5c.js.map": "/dogfood/static/js/main.5480bf5c.js.map"
+    "static/media/arrow.svg": "/dogfood/static/media/arrow.6e6d5e122e20064df60a3de2971466b4.svg",
+    "main.ec5c01dc.css.map": "/dogfood/static/css/main.ec5c01dc.css.map",
+    "main.2da7d478.js.map": "/dogfood/static/js/main.2da7d478.js.map"
   },
   "entrypoints": [
-    "static/css/main.3b0125c5.css",
-    "static/js/main.5480bf5c.js"
+    "static/css/main.ec5c01dc.css",
+    "static/js/main.2da7d478.js"
   ]
 }
